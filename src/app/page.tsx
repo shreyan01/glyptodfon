@@ -185,6 +185,43 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      {/* Features Section */}
+      <section className="relative z-10 px-6 py-24 sm:px-8 lg:px-12">
+        {/* Section background echoing hero */}
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute inset-0 opacity-50"
+            style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.65), transparent 70%)" }} />
+          <div className="absolute inset-y-0 left-0 w-1/2 opacity-70 mix-blend-overlay"
+            style={{ backgroundImage: `repeating-linear-gradient(32deg, rgba(255,255,255,0.7) 0, rgba(255,255,255,0.7) 1px, transparent 1px, transparent 48px)` }} />
+          <div className="absolute inset-y-0 right-0 w-1/2 opacity-70 mix-blend-overlay"
+            style={{ backgroundImage: `repeating-linear-gradient(-32deg, rgba(255,255,255,0.7) 0, rgba(255,255,255,0.7) 1px, transparent 1px, transparent 48px)` }} />
+        </div>
+
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">Everything in one place</h2>
+            <p className="text-gray-600 text-lg max-w-3xl mx-auto">Issues, docs, sprints, and roadmaps — finally together. Ruberic keeps your team in flow with fast, opinionated primitives you won’t outgrow.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {[
+              { title: "Issues & sprints", desc: "Blazing-fast boards, backlog, and sprint rituals with keyboard-first workflows." },
+              { title: "Docs & specs", desc: "Share context alongside work with real-time docs, mentions, and embeds." },
+              { title: "Roadmaps", desc: "Plan what’s next with timelines, capacity, and cross-team initiatives." },
+              { title: "AI assist", desc: "Summarize threads, draft updates, and turn feedback into issues instantly." },
+              { title: "Automations", desc: "Rules that route, triage, and nudge work forward — minus the overhead." },
+              { title: "Integrations", desc: "Git, Slack, Figma and more — Ruberic meets your team where it already lives." },
+            ].map((c, i) => (
+              <div key={i} className="rounded-2xl border border-white/60 bg-white/50 backdrop-blur px-6 py-8 shadow-sm">
+                <div className="mb-4 h-10 w-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 opacity-80" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{c.title}</h3>
+                <p className="text-gray-600 text-sm leading-6">{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
