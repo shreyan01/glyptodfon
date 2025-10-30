@@ -1,4 +1,8 @@
+"use client";
+
 import Image from "next/image";
+import { FaGithub, FaSlack, FaFigma } from "react-icons/fa";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function Home() {
   return (
@@ -90,8 +94,8 @@ export default function Home() {
         <nav className="mx-auto max-w-7xl flex items-center justify-between rounded-2xl bg-white/40 backdrop-blur supports-[backdrop-filter]:bg-white/50 border border-white/60 px-5 py-3">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm">
-              <span className="text-white font-bold text-lg">S</span>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+              <Image src="/glyptodon_logo.png" alt="Ruberic" width={40} height={40} />
             </div>
             <span className="text-2xl font-bold text-gray-800">Ruberic</span>
           </div>
@@ -146,34 +150,20 @@ export default function Home() {
           <div className="flex flex-col items-center">
             {/* Arc container */}
             <div className="relative w-full max-w-3xl h-36 mb-2">
-              {/* SVG arc */}
-              <svg className="absolute inset-x-0 bottom-0 w-full h-full" viewBox="0 0 100 40" fill="none">
-                <path d="M5,35 C25,5 75,5 95,35" stroke="rgba(0,0,0,0.08)" strokeWidth="0.6" strokeLinecap="round" />
-              </svg>
-              {/* Icons placed along the arc */}
-              <div className="absolute left-[7%] bottom-6 translate-y-1">
-                <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
-                  <div className="w-5 h-5 bg-gray-300 rounded" />
-                </div>
-              </div>
+              
               <div className="absolute left-[28%] bottom-12">
                 <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
-                  <span className="text-gray-400 font-bold">F</span>
+                  <FaFigma className="text-gray-600 text-2xl" />
                 </div>
               </div>
               <div className="absolute left-1/2 -translate-x-1/2 bottom-[88px]">
                 <div className="w-14 h-14 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
-                  <span className="text-gray-400 font-black text-xl">N</span>
+                  <FaGithub className="text-gray-600 text-2xl" />
                 </div>
               </div>
               <div className="absolute right-[28%] bottom-12">
                 <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
-                  <span className="text-gray-400 font-bold text-xs">31</span>
-                </div>
-              </div>
-              <div className="absolute right-[7%] bottom-6 translate-y-1">
-                <div className="w-11 h-11 bg-white border border-gray-200 rounded-lg flex items-center justify-center shadow-sm">
-                  <div className="w-4 h-4 bg-gray-300 rounded" />
+                  <FaSlack className="text-gray-600 text-2xl" />
                 </div>
               </div>
             </div>
@@ -189,39 +179,247 @@ export default function Home() {
       {/* Features Section */}
       <section className="relative z-10 px-6 py-24 sm:px-8 lg:px-12">
         {/* Section background echoing hero */}
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 opacity-50"
-            style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.65), transparent 70%)" }} />
-          <div className="absolute inset-y-0 left-0 w-1/2 opacity-70 mix-blend-overlay"
-            style={{ backgroundImage: `repeating-linear-gradient(32deg, rgba(255,255,255,0.7) 0, rgba(255,255,255,0.7) 1px, transparent 1px, transparent 48px)` }} />
-          <div className="absolute inset-y-0 right-0 w-1/2 opacity-70 mix-blend-overlay"
-            style={{ backgroundImage: `repeating-linear-gradient(-32deg, rgba(255,255,255,0.7) 0, rgba(255,255,255,0.7) 1px, transparent 1px, transparent 48px)` }} />
-        </div>
+        <FeaturesScrollReveal />
+      </section>
+      
+      {/* Disclaimer Section */}
+      <section className="relative z-10 px-6 pt-10 pb-24 sm:px-8 lg:px-12">
+        <DisclaimerSection />
+      </section>
+    </div>
+  );
+}
 
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">Everything in one place</h2>
-            <p className="text-gray-600 text-lg max-w-3xl mx-auto">Issues, docs, sprints, and roadmaps — finally together. Ruberic keeps your team in flow with fast, opinionated primitives you won’t outgrow.</p>
+function FeaturesScrollReveal() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const itemRefs = useRef<HTMLDivElement[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0); // 0..1 across the whole section
+  const [overlayVisible, setOverlayVisible] = useState(false);
+
+  const features = useMemo(
+    () => [
+      {
+        id: "simplest-ui",
+        type: "hero",
+        title: "Simplest UI for a project management tool ever seen",
+        description:
+          "A distraction‑free interface that keeps your team focused on shipping.",
+      },
+      {
+        id: "necessary-tools",
+        type: "text",
+        title: "All necessary tools pre-integrated for your team to ship at blazing speed",
+        description:
+          "No more juggling between tools. Ruberic integrates with your team's favorite tools and workflows.",
+      },
+      {
+        id: "one-workspace",
+        type: "text",
+        title: "Docs, tickets, issues, roadmaps — all in one place",
+        description:
+          "Everything your product team needs, wired together and blazing fast.",
+      },
+      {
+        id: "low-manual",
+        type: "text",
+        title: "We have removed as much manual work as possible for your team",
+        description:
+          "No more manual work. Ruberic is a fully automated system that works for your team.",
+      },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      // Show overlay only when section top has reached top of viewport
+      // and the section still covers at least the viewport height
+      const pinnedWindow = rect.top <= 0 && rect.bottom >= window.innerHeight;
+      setOverlayVisible(pinnedWindow);
+      const totalScrollable = rect.height - window.innerHeight;
+      // how far we have scrolled inside the section
+      const insideScroll = Math.min(Math.max(-rect.top, 0), Math.max(totalScrollable, 1));
+      const progress = Math.max(0, Math.min(1, insideScroll / Math.max(totalScrollable, 1)));
+      setScrollProgress(progress);
+
+      // Map progress to discrete steps: one-by-one reveal
+      const steps = Math.max(features.length, 1);
+      const index = Math.min(steps - 1, Math.floor(progress * steps + 0.00001));
+      setActiveIndex(index);
+    };
+
+    // Defer first measurement until after paint to ensure layout/refs are ready
+    const raf = requestAnimationFrame(onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  // compute a gentle parallax translate for active card based on section scroll progress
+  const parallaxTranslateY = (index: number) => {
+    const base = (scrollProgress * features.length) - index;
+    // clamp to a small range
+    const delta = Math.max(-1, Math.min(1, base));
+    return delta * 12; // px
+  };
+
+  return (
+    <div ref={containerRef} className="mx-auto max-w-7xl" style={{ height: `${features.length * 100}vh` }}>
+      {/* Fixed overlay to ensure pinning regardless of ancestor overflow */}
+      <div className="fixed inset-0 pointer-events-none" style={{ opacity: overlayVisible ? 1 : 0, transition: "opacity 200ms" }}>
+        <div className="h-full flex flex-col px-6 sm:px-8 lg:px-12 justify-center pointer-events-none">
+          <div className="z-0 mb-6 mt-6 text-xs font-medium tracking-wide text-gray-500 pointer-events-none">
+            FEATURES
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {[
-              { title: "Issues & sprints", desc: "Blazing-fast boards, backlog, and sprint rituals with keyboard-first workflows." },
-              { title: "Docs & specs", desc: "Share context alongside work with real-time docs, mentions, and embeds." },
-              { title: "Roadmaps", desc: "Plan what’s next with timelines, capacity, and cross-team initiatives." },
-              { title: "AI assist", desc: "Summarize threads, draft updates, and turn feedback into issues instantly." },
-              { title: "Automations", desc: "Rules that route, triage, and nudge work forward — minus the overhead." },
-              { title: "Integrations", desc: "Git, Slack, Figma and more — Ruberic meets your team where it already lives." },
-            ].map((c, i) => (
-              <div key={i} className="rounded-2xl border border-white/60 bg-white/50 backdrop-blur px-6 py-8 shadow-sm">
-                <div className="mb-4 h-10 w-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 opacity-80" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{c.title}</h3>
-                <p className="text-gray-600 text-sm leading-6">{c.desc}</p>
+          <div className="relative flex-1 flex flex-col justify-center pointer-events-none">
+            {features.map((feature, index) => (
+              <div
+                key={feature.id}
+                ref={(el) => {
+                  if (el) itemRefs.current[index] = el;
+                }}
+                className={
+                  "absolute inset-x-0 transition-opacity duration-700 will-change-opacity " +
+                  (activeIndex === index ? "opacity-100" : "opacity-0")
+                }
+                style={{ pointerEvents: activeIndex === index ? "auto" : "none" }}
+              >
+                {feature.type === "hero" ? (
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div className="lg:col-span-5">
+                      <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.03] text-gray-900">
+                        {feature.title}
+                      </h2>
+                      <p className="mt-6 text-base sm:text-xl text-gray-600 max-w-md">
+                        {feature.description}
+                      </p>
+                    </div>
+                    <div className="lg:col-span-7">
+                      <TiltCard translateY={parallaxTranslateY(index)} />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                    <div className="lg:col-span-5">
+                      <h3 className="text-3xl sm:text-5xl font-extrabold text-gray-900">
+                        {feature.title}
+                      </h3>
+                      <p className="mt-4 text-base sm:text-xl text-gray-600 max-w-md">
+                        {feature.description}
+                      </p>
+                    </div>
+                    <div className="lg:col-span-7">
+                      <div className="rounded-2xl border border-gray-200 bg-white/70 p-6">
+                        <div className="aspect-[16/10] w-full rounded-lg bg-gray-50 border border-dashed border-gray-300 flex items-center justify-center">
+                          <span className="text-gray-400 text-sm">Coming soon</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  );
+}
+
+function DisclaimerSection() {
+  return (
+    <div className="mx-auto max-w-7xl">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div className="lg:col-span-5">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.03] text-gray-900">
+            Disclaimer
+          </h2>
+          <p className="mt-6 text-base sm:text-xl text-gray-600 max-w-md">
+            Ruberic is free because we are building an AI models suite specifically crafted
+            for project management tools — a new generation that will transform how teams plan
+            and ship.
+          </p>
+        </div>
+        <div className="lg:col-span-7">
+          <div className="rounded-2xl border border-gray-200 bg-white/70 p-6">
+            <div className="space-y-3 text-gray-600 text-sm sm:text-base">
+              <p>
+                We intend to use our users' data to train and continually improve those models.
+              </p>
+              <p>
+                We solemnly promise to protect your data and prevent it from being sold outside.
+                Your data will be used solely to train and improve our models.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TiltCard({ translateY = 0 }: { translateY?: number }) {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const [tilt, setTilt] = useState({ x: -6, y: 6 });
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width; // 0..1
+      const py = (e.clientY - rect.top) / rect.height; // 0..1
+      // map to small tilt range
+      const rotateY = (px - 0.5) * 12; // left/right
+      const rotateX = (0.5 - py) * 12; // up/down
+      setTilt({ x: rotateX, y: rotateY });
+    };
+
+    const onLeave = () => setTilt({ x: 6, y: -6 });
+
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={wrapperRef}
+      className="relative rounded-2xl bg-white border border-gray-200 shadow-xl"
+      style={{ perspective: "1200px", transform: `translateY(${translateY}px)` }}
+    >
+      <div
+        className="rounded-2xl p-4 sm:p-6 transition-transform duration-200"
+        style={{
+          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+          transformStyle: "preserve-3d",
+          background: "linear-gradient(180deg, rgba(248,249,255,0.9), rgba(255,255,255,0.9))",
+          boxShadow: "0 20px 40px rgba(20,20,40,0.12), inset 0 1px 0 rgba(255,255,255,0.8)",
+        }}
+      >
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-400" />
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-yellow-400" />
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-green-400" />
+          </div>
+          <div className="text-xs text-gray-500">Dashboard</div>
+        </div>
+        <div className="aspect-[16/10] w-full overflow-hidden rounded-xl bg-gradient-to-br from-gray-100 to-gray-50 border border-gray-200 flex items-center justify-center">
+          <div className="text-gray-400 text-sm">Product dashboard preview</div>
+        </div>
+      </div>
     </div>
   );
 }
