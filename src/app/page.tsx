@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { FaGithub, FaSlack, FaFigma } from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -90,8 +91,8 @@ export default function Home() {
         <nav className="mx-auto max-w-7xl flex items-center justify-between rounded-2xl bg-white/40 backdrop-blur supports-[backdrop-filter]:bg-white/50 border border-white/60 px-5 py-3">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm">
-              <span className="text-white font-bold text-lg">S</span>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+              <Image src="/glyptodon_logo.png" alt="Ruberic" width={40} height={40} />
             </div>
             <span className="text-2xl font-bold text-gray-800">Ruberic</span>
           </div>
@@ -146,34 +147,20 @@ export default function Home() {
           <div className="flex flex-col items-center">
             {/* Arc container */}
             <div className="relative w-full max-w-3xl h-36 mb-2">
-              {/* SVG arc */}
-              <svg className="absolute inset-x-0 bottom-0 w-full h-full" viewBox="0 0 100 40" fill="none">
-                <path d="M5,35 C25,5 75,5 95,35" stroke="rgba(0,0,0,0.08)" strokeWidth="0.6" strokeLinecap="round" />
-              </svg>
-              {/* Icons placed along the arc */}
-              <div className="absolute left-[7%] bottom-6 translate-y-1">
-                <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
-                  <div className="w-5 h-5 bg-gray-300 rounded" />
-                </div>
-              </div>
+              
               <div className="absolute left-[28%] bottom-12">
                 <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
-                  <span className="text-gray-400 font-bold">F</span>
+                  <FaFigma className="text-gray-600 text-2xl" />
                 </div>
               </div>
               <div className="absolute left-1/2 -translate-x-1/2 bottom-[88px]">
                 <div className="w-14 h-14 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
-                  <span className="text-gray-400 font-black text-xl">N</span>
+                  <FaGithub className="text-gray-600 text-2xl" />
                 </div>
               </div>
               <div className="absolute right-[28%] bottom-12">
                 <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
-                  <span className="text-gray-400 font-bold text-xs">31</span>
-                </div>
-              </div>
-              <div className="absolute right-[7%] bottom-6 translate-y-1">
-                <div className="w-11 h-11 bg-white border border-gray-200 rounded-lg flex items-center justify-center shadow-sm">
-                  <div className="w-4 h-4 bg-gray-300 rounded" />
+                  <FaSlack className="text-gray-600 text-2xl" />
                 </div>
               </div>
             </div>
