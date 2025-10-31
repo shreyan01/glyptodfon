@@ -96,6 +96,8 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center">
               <Image src="/glyptodon_logo.png" alt="Ruberic" width={40} height={40} />
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+              <Image src="/glyptodon_logo.png" alt="Ruberic" width={40} height={40} />
             </div>
             <span className="text-2xl font-bold text-gray-800">Ruberic</span>
           </div>
@@ -151,8 +153,10 @@ export default function Home() {
             {/* Arc container */}
             <div className="relative w-full max-w-3xl h-36 mb-2">
               
+              
               <div className="absolute left-[28%] bottom-12">
                 <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
+                  <FaFigma className="text-gray-600 text-2xl" />
                   <FaFigma className="text-gray-600 text-2xl" />
                 </div>
               </div>
@@ -163,6 +167,7 @@ export default function Home() {
               </div>
               <div className="absolute right-[28%] bottom-12">
                 <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
+                  <FaSlack className="text-gray-600 text-2xl" />
                   <FaSlack className="text-gray-600 text-2xl" />
                 </div>
               </div>
