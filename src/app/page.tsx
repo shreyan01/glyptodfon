@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { FaGithub, FaSlack, FaFigma } from "react-icons/fa";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -96,12 +97,9 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center">
               <Image src="/glyptodon_logo.png" alt="Ruberic" width={40} height={40} />
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center">
-              <Image src="/glyptodon_logo.png" alt="Ruberic" width={40} height={40} />
             </div>
             <span className="text-2xl font-bold text-gray-800">Ruberic</span>
           </div>
-
           {/* Navigation Links */}
           <div className="hidden md:flex items-center gap-9 text-[15px]">
             <a href="#" className="text-gray-600 hover:text-gray-800 transition-colors">Product</a>
@@ -113,12 +111,12 @@ export default function Home() {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-3">
-            <button className="px-5 py-2 text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
+            <Link href="/auth?tab=signin" className="px-5 py-2 text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
               Log in
-            </button>
-            <button className="px-5 py-2 bg-gray-900 text-white rounded-full hover:bg-black transition-colors shadow-sm">
+            </Link>
+            <Link href="/auth?tab=signup" className="px-5 py-2 bg-gray-900 text-white rounded-full hover:bg-black transition-colors shadow-sm">
               Sign up
-            </button>
+            </Link>
           </div>
         </nav>
       </header>
@@ -157,7 +155,6 @@ export default function Home() {
               <div className="absolute left-[28%] bottom-12">
                 <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
                   <FaFigma className="text-gray-600 text-2xl" />
-                  <FaFigma className="text-gray-600 text-2xl" />
                 </div>
               </div>
               <div className="absolute left-1/2 -translate-x-1/2 bottom-[88px]">
@@ -167,7 +164,6 @@ export default function Home() {
               </div>
               <div className="absolute right-[28%] bottom-12">
                 <div className="w-11 h-11 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm">
-                  <FaSlack className="text-gray-600 text-2xl" />
                   <FaSlack className="text-gray-600 text-2xl" />
                 </div>
               </div>
